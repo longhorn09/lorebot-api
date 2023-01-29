@@ -1,6 +1,16 @@
 # lorebot-api
-example in node
+Lorebot microservice in NodeJS
 
+
+## Dependencies
+
+Dependencies can be installed with `npm install` but to install discretely run following
+```
+npm install moment
+npm install express
+npm install dotenv
+npm install mysql2
+```
 ## .env
 `.env` file for use with `dotenv` should be structured in below fashion
 ```

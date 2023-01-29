@@ -11,7 +11,9 @@ app.use(
     extended: true,
   })
 );
-
+/**
+ * https://www.geeksforgeeks.org/how-to-create-multiple-routes-in-the-same-express-js-server/
+ */
 app.get("/", (req, res) => {
   res.json({ message: "ok" });
 });

@@ -1,6 +1,13 @@
 const mysql = require('mysql2/promise');
 require('dotenv').config()
 
+
+/**
+ * Connection pooling: https://github.com/sidorares/node-mysql2#using-connection-pools
+ * @param {*} sql 
+ * @param {*} params 
+ * @returns 
+ */
 async function query(sql, params) {
   //const connection = await mysql.createConnection(config.db);
   const connection = await mysql.createConnection(

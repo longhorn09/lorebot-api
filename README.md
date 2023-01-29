@@ -13,6 +13,7 @@ DB_PAGESIZE=10
 ```
 
 `dotenv` should be automatically installed with `npm install` but to install discretely use following
+
 ```npm i dotenv```
 
 ### Code based on https://blog.logrocket.com/build-rest-api-node-express-mysql/

@@ -22,18 +22,18 @@ async function getMultiple(pLore, page = 1) {
   };
 }
 
-async function create(programmingLanguage) {
+async function create(pArg) {
   const result = await db.query(
     `INSERT INTO programming_languages 
     (name, released_year, githut_rank, pypl_rank, tiobe_rank) 
     VALUES 
-    ("${programmingLanguage.name}", ${programmingLanguage.released_year}, ${programmingLanguage.githut_rank}, ${programmingLanguage.pypl_rank}, ${programmingLanguage.tiobe_rank})`
+    ("${pArg.name}", ${pArg.released_year})`
   );
 
-  let message = "Error in creating programming language";
+  let message = "Error in Create Lore";
 
   if (result.affectedRows) {
-    message = "Programming language created successfully";
+    message = "Lore CREATE successfully";
   }
 
   return { message };
@@ -47,10 +47,10 @@ async function update(id, programmingLanguage) {
     WHERE id=${id}`
   );
 
-  let message = "Error in updating programming language";
+  let message = "Error in UPDATE Lore";
 
   if (result.affectedRows) {
-    message = "Programming language updated successfully";
+    message = "Lore UPDATE successfully";
   }
 
   return { message };
@@ -61,10 +61,10 @@ async function remove(id) {
     `DELETE FROM programming_languages WHERE id=${id}`
   );
 
-  let message = "Error in deleting programming language";
+  let message = "Error in DELETE Lore";
 
   if (result.affectedRows) {
-    message = "Programming language deleted successfully";
+    message = "Lore deleted successfully";
   }
 
   return { message };

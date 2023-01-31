@@ -1,3 +1,4 @@
+"use strict";
 const express = require("express");
 const router = express.Router();
 const sqlBuilder = require("../services/sqlBuilder");
@@ -16,7 +17,7 @@ router.get("/stat", async function (req, res, next) {
 router.get("/stat/:loreItem", async function (req, res, next) {
   try {
     //console.log(req.params.loreItem);
-    res.json(await sqlBuilder.getMultiple(req.params.loreItem,1));
+    res.json(await sqlBuilder.getMultiLore(req.params.loreItem,1));
   } catch (err) {
     console.error(`Error while GET Lore`, err.message);
     next(err);
@@ -26,7 +27,7 @@ router.get("/stat/:loreItem", async function (req, res, next) {
 router.get("/stat/:loreItem/:pageNo([0-9]+)", async function (req, res, next) {
   try {
     //console.log(req.params.loreItem + ": " + req.params.pageNo);
-    res.json(await sqlBuilder.getMultiple(req.params.loreItem,req.params.pageNo));
+    res.json(await sqlBuilder.getMultiLore(req.params.loreItem,req.params.pageNo));
   } catch (err) {
     console.error(`Error while GET lore `, err.message);
     next(err);

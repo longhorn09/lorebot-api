@@ -2,14 +2,17 @@ const db = require("./db");
 const helper = require("../helper");
 require('dotenv').config()
 
-async function getMultiple(page = 1) {
-  //const offset = helper.getOffset(page, config.listPerPage);
+async function getMultiple(pLore, page = 1) {
+  let sqlStr = ''//const offset = helper.getOffset(page, config.listPerPage);
   const offset = helper.getOffset(page, process.env.DB_PAGESIZE);
 
   const rows = await db.query(
     `SELECT LORE_ID, OBJECT_NAME,ITEM_TYPE,ITEM_IS,AFFECTS
-    FROM Lore LIMIT ${offset},${process.env.DB_PAGESIZE}`
+    FROM Lore 
+    WHERE OBJECT_NAME like '%` + pLore + `%'
+    LIMIT ${offset},${process.env.DB_PAGESIZE}`
   );
+
 
   const data = helper.emptyOrRows(rows);
   const meta = { page };

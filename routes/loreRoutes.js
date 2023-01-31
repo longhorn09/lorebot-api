@@ -3,6 +3,7 @@ const router = express.Router();
 const programmingLanguages = require("../services/programmingLanguages");
 
 /* GET programming languages. */
+/*
 router.get("/stat", async function (req, res, next) {
   try {
     res.json(await programmingLanguages.getMultiple(req.query.page));
@@ -11,11 +12,21 @@ router.get("/stat", async function (req, res, next) {
     next(err);
   }
 });
-
-router.get("/stat/:loreItem/:pageNo", async function (req, res, next) {
+*/
+router.get("/stat/:loreItem", async function (req, res, next) {
   try {
-    console.log(req.params.loreItem + ": " + req.params.pageNo);
-    res.json(await programmingLanguages.getMultiple(req.params.pageNo));
+    //console.log(req.params.loreItem);
+    res.json(await programmingLanguages.getMultiple(req.params.loreItem,1));
+  } catch (err) {
+    console.error(`Error while getting programming languages `, err.message);
+    next(err);
+  }
+});
+
+router.get("/stat/:loreItem/:pageNo([0-9]+)", async function (req, res, next) {
+  try {
+    //console.log(req.params.loreItem + ": " + req.params.pageNo);
+    res.json(await programmingLanguages.getMultiple(req.params.loreItem,req.params.pageNo));
   } catch (err) {
     console.error(`Error while getting programming languages `, err.message);
     next(err);
@@ -23,7 +34,7 @@ router.get("/stat/:loreItem/:pageNo", async function (req, res, next) {
 });
 
 /* POST programming language */
-router.post("/", async function (req, res, next) {
+router.post("/stat/:id", async function (req, res, next) {
   try {
     res.json(await programmingLanguages.create(req.body));
   } catch (err) {
@@ -33,7 +44,7 @@ router.post("/", async function (req, res, next) {
 });
 
 /* PUT programming language */
-router.put("/:id", async function (req, res, next) {
+router.put("/stat/:id", async function (req, res, next) {
   try {
     res.json(await programmingLanguages.update(req.params.id, req.body));
   } catch (err) {
@@ -43,6 +54,7 @@ router.put("/:id", async function (req, res, next) {
 });
 
 /* DELETE programming language */
+/*
 router.delete("/:id", async function (req, res, next) {
   try {
     res.json(await programmingLanguages.remove(req.params.id));
@@ -50,6 +62,6 @@ router.delete("/:id", async function (req, res, next) {
     console.error(`Error while deleting programming language`, err.message);
     next(err);
   }
-});
+});*/
 
 module.exports = router;

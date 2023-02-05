@@ -3,7 +3,8 @@ require('dotenv').config()
 const express = require("express");
 const app = express();
 const port = 8080;
-const loreRouter = require("./routes/loreRoutes");
+const statRouter = require("./routes/loreRoutes");
+const briefRouter = require("./routes/briefRoutes");
 const API_VERSION = "/api/v1/"
 
 app.use(express.json());
@@ -19,8 +20,8 @@ app.get("/", (req, res) => {
   res.json({ message: "ok" });
 });
 
-app.use(API_VERSION, loreRouter);
-
+app.use(API_VERSION, statRouter); // api/v1/stat
+app.use(API_VERSION , briefRouter); // api/v1/brief 
 /* Error handler middleware */
 app.use((err, req, res, next) => {
   const statusCode = err.statusCode || 500;

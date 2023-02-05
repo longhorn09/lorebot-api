@@ -6,17 +6,54 @@ const moment = require('moment');
 const mysql = require('mysql2');  //need it simply for the escape() function to prevent injection attack
 
 
-async function getMultiLore(pLore, page = 1) {
-  let sqlStr = ''//const offset = helper.getOffset(page, config.listPerPage);
+/**
+ * this services /brief SlashCommand
+ */
+async function getObjectNames(pLore, page = 1) {
   let whereClause = " WHERE 1=1 ";
   let searchItem = ''
   let splitArr = []
-  let dateTime = null;
+
+  const offset = helper.getOffset(page, 40); // helps with database paging
+
+  searchItem = pLore;
+  //console.log(`${dateTime} : ${message.author.username.toString().padEnd(30)} /stat ${searchItem}`);
+
+  splitArr = searchItem.split(".");
+  if (splitArr.length >= 1) {
+    for (let i = 0; i < splitArr.length; i++)    {
+      whereClause += ` and Lore.OBJECT_NAME LIKE '%${mysql.escape(splitArr[i]).substring(1,mysql.escape(splitArr[i]).length-1)}%' `
+    }
+  }
+
+  const rows = await db.query(
+    `SELECT Lore.LORE_ID, Lore.OBJECT_NAME FROM Lore ` + whereClause + `LIMIT ${offset},40`
+  );
+
+  const loreRows = await db.query(
+    `SELECT count(Lore.LORE_ID) as LoreCount FROM Lore ` + whereClause //+ `LIMIT ${offset},${process.env.DB_PAGESIZE}`
+  );
+
+  //console.log(loreRows[0].LoreCount)
+  const data = helper.emptyOrRows(rows);
+  const loreCount = loreRows[0].LoreCount 
+  const meta = { page ,loreCount };
+  //console.log(rowCount)
+  return {
+    data, meta
+  };
+}
+/**
+ * this services /stat SlashCommand
+ */
+async function getMultiLore(pLore, page = 1) {
+  let whereClause = " WHERE 1=1 ";
+  let searchItem = ''
+  let splitArr = []
 
   const offset = helper.getOffset(page, process.env.DB_PAGESIZE); // helps with database paging
 
   searchItem = pLore;
-  dateTime = moment().format("YYYY-MM-DD HH:mm:ss");
   //console.log(`${dateTime} : ${message.author.username.toString().padEnd(30)} /stat ${searchItem}`);
 
   splitArr = searchItem.split(".");
@@ -95,6 +132,7 @@ async function remove(id) {
 }
 
 module.exports = {
+  getObjectNames,
   getMultiLore,
   create,
   update,

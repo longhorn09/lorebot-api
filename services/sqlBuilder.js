@@ -43,6 +43,28 @@ async function getObjectNames(pLore, page = 1) {
     data, meta
   };
 }
+
+/**
+ * this services /stat SlashCommand
+ */
+async function getLoreID(pLoreID, page = 1) {
+  const offset = helper.getOffset(page, process.env.DB_PAGESIZE); // helps with database paging
+
+  const rows = await db.query(
+    `SELECT * FROM Lore WHERE LORE_ID=` + pLoreID
+  );
+
+  //console.log(loreRows[0].LoreCount)
+  const data = helper.emptyOrRows(rows);
+  const loreCount = 1;
+  const meta = { page ,loreCount};
+
+  return {
+    data, meta
+  };
+}
+
+
 /**
  * this services /stat SlashCommand
  */
@@ -137,4 +159,5 @@ module.exports = {
   create,
   update,
   remove,
+  getLoreID,
 };
